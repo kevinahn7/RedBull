@@ -6,51 +6,202 @@ namespace RedBullProject
     public class RedBull
     {
         string[] validRowArray = { "A", "B", "C", "D", "E", "F", "G", "H" };
-        private int Column { set; get; }
-        private string Row { set; get; }
+        //int[] validColumnArray = { 1, 2, 3, 4, 5, 6, 7, 8 };
+        private int pawnColumn;
+        private string pawnRow;
+        private int queenColumn;
+        private string queenRow;
 
+
+
+        public void SetPawnRow(string location) {
+
+            pawnRow = location;
+        }
+
+        public string GetPawnRow() {
+
+            return pawnRow;
+        }
+
+        public void SetPawnColumn(int location)
+        {
+
+            pawnColumn = location;
+        }
+
+        public int GetPawnColumn()
+        {
+
+            return pawnColumn;
+        }
+
+        public void SetQueenRow(string location)
+        {
+
+            queenRow = location;
+        }
+
+        public string GetQueenRow()
+        {
+
+            return queenRow;
+        }
+
+        public void SetQueenColumn(int location)
+        {
+
+            queenColumn = location;
+        }
+
+        public int GetQueenColumn()
+        {
+
+            return queenColumn;
+        }
 
         public void StartGame()
         {
-            this.GetInput();
+            GetInputColumnPawn();
+            GetInputRowPawn();
         }
 
-        public void GetInput()
+        public void GetInputColumnPawn()
         {
             Console.WriteLine("Enter a column location for the pawn to go on with a number 1-8");
             int inputtedColumn = int.Parse(Console.ReadLine());
-            this.IsColumnLegit(inputtedColumn);
-            Console.WriteLine("Enter a row location for the pawn to go on with a letter A-H");
-            string inputtedRow = Console.ReadLine().ToUpper();
-            this.IsRowLegit(inputtedRow);
+            if (IsColumnLegit(inputtedColumn))
+            {
+                PlacePawnColumn(inputtedColumn);
+            }
+            else{
+                Console.WriteLine("Enter a valid number!");
+                GetInputColumnPawn();
+            }
         }
 
-        public void IsColumnLegit(int input)
+        public void GetInputRowPawn()
+        {
+            Console.WriteLine("Enter a row location for the pawn to go on with a letter A-H");
+            string inputtedRow = Console.ReadLine();
+            if (IsRowLegit(inputtedRow))
+            {
+                PlacePawnRow(inputtedRow);
+            }
+            else
+            {
+                Console.WriteLine("Enter a valid number!");
+                GetInputRowPawn();
+            }
+        }
+
+        public void GetInputColumnQueen()
+        {
+            Console.WriteLine("Enter a column location for the Queen to go on with a number 1-8");
+            int inputtedColumn = int.Parse(Console.ReadLine());
+            if (IsColumnLegit(inputtedColumn))
+            {
+                PlaceQueenColumn(inputtedColumn);
+            }
+            else
+            {
+                Console.WriteLine("Enter a valid number!");
+                GetInputColumnQueen();
+            }
+        }
+
+        public void GetInputRowQueen()
+        {
+            Console.WriteLine("Enter a row location for the Queen to go on with a letter A-H");
+            string inputtedRow = Console.ReadLine();
+            if (IsRowLegit(inputtedRow))
+            {
+                PlaceQueenRow(inputtedRow);
+            }
+            else
+            {
+                Console.WriteLine("Enter a valid number!");
+                GetInputRowQueen();
+            }
+        }
+
+        public bool IsColumnLegit(int input)
         {
             if (input > 0 && input < 9)
             {
-                
+                return true;
             }
             else 
             {
-                Console.WriteLine("That is not a valod input");
-                this.GetInput();
+                return false;
             }
         }
 
         public bool IsRowLegit(string input)
         {
-            
             bool valid = false;
             for (int i = 0; i < validRowArray.Length; i++)
             {
-                if (validRowArray[i] == input)
+                if (validRowArray[i] == input.ToUpper())
                 {
                     valid = true;
                     break;
                 }
             }
             return valid;
+        }
+
+        public void PlacePawnColumn(int location)
+        {
+            SetPawnColumn(location);
+        }
+
+        public void PlacePawnRow(string location)
+        {
+            SetPawnRow(location);
+            GetInputColumnQueen();
+            GetInputRowQueen();
+        }
+
+        public void PlaceQueenColumn(int location)
+        {
+            SetQueenColumn(location);
+        }
+
+        public void PlaceQueenRow(string location)
+        {
+            SetQueenRow(location);
+            CheckIfSameSpot();
+        }
+
+        public void CheckIfSameSpot()
+        {
+            if (pawnColumn == queenColumn && pawnRow == queenRow)
+            {
+                Console.WriteLine("You picked the same location for the pawn and queen, pick a different one for the queen!");
+                GetInputColumnQueen();
+                GetInputRowQueen();
+            }
+            else
+            {
+                CheckIfQueenAttacks();
+            }
+        }
+
+        public void CheckIfQueenAttacks()
+        {
+            if (pawnColumn == queenColumn || pawnRow == queenRow)
+            {
+                Console.WriteLine("The queen attacks the pawn");
+            }
+            //else if ()
+            //{
+                
+            //}
+            else
+            {
+                Console.WriteLine("The queen cannot attack the pawn");
+            }
         }
     }
 
