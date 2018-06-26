@@ -6,7 +6,6 @@ namespace RedBullProject
     public class RedBull
     {
         string[] validRowArray = { "A", "B", "C", "D", "E", "F", "G", "H" };
-        //int[] validColumnArray = { 1, 2, 3, 4, 5, 6, 7, 8 };
         private int pawnColumn;
         private string pawnRow;
         private int queenColumn;
@@ -14,12 +13,14 @@ namespace RedBullProject
 
 
 
-        public void SetPawnRow(string location) {
+        public void SetPawnRow(string location)
+        {
 
             pawnRow = location;
         }
 
-        public string GetPawnRow() {
+        public string GetPawnRow()
+        {
 
             return pawnRow;
         }
@@ -74,7 +75,8 @@ namespace RedBullProject
             {
                 PlacePawnColumn(inputtedColumn);
             }
-            else{
+            else
+            {
                 Console.WriteLine("Enter a valid number!");
                 GetInputColumnPawn();
             }
@@ -131,7 +133,7 @@ namespace RedBullProject
             {
                 return true;
             }
-            else 
+            else
             {
                 return false;
             }
@@ -190,17 +192,60 @@ namespace RedBullProject
 
         public void CheckIfQueenAttacks()
         {
-            if (pawnColumn == queenColumn || pawnRow == queenRow)
+            if (pawnColumn == queenColumn)
             {
-                Console.WriteLine("The queen attacks the pawn");
+                Console.WriteLine("The queen attacks the pawn horizontally!");
             }
-            //else if ()
-            //{
-                
-            //}
+            else if (pawnRow == queenRow)
+            {
+                Console.WriteLine("The queen attacks the pawn vertically!");
+            }
+            else if (CheckDiagonal())
+            {
+                Console.WriteLine("The queen attacks the pawn diagonally!");
+            }
             else
             {
                 Console.WriteLine("The queen cannot attack the pawn");
+            }
+            PlayAgain();
+        }
+
+        public bool CheckDiagonal()
+        {
+            bool valid = false;
+            int columnDifference = queenColumn - pawnColumn;
+            int queenRowPosition = 0;
+            int pawnRowPosition = 0;
+            for (int x = 0; x < validRowArray.Length; x++)
+            {
+                if (queenRow.ToUpper() == validRowArray[x])
+                {
+                    queenRowPosition = x;
+                }
+                if (pawnRow.ToUpper() == validRowArray[x])
+                {
+                    pawnRowPosition = x;
+                }
+            }
+            if (columnDifference == (queenRowPosition - pawnRowPosition) || columnDifference == (-1 * (queenRowPosition - pawnRowPosition)))
+            {
+                valid = true;
+            }
+            return valid;
+        }
+
+        public void PlayAgain()
+        {
+            Console.WriteLine("Do you want to play this amazing game again? Y or N");
+            string response = Console.ReadLine().ToUpper();
+            if (response == "Y")
+            {
+                StartGame();
+            }
+            else
+            {
+                Console.WriteLine("Goodbye");
             }
         }
     }

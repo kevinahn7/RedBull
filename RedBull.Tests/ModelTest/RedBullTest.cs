@@ -22,5 +22,13 @@ namespace RedBullProject.Tests
             Assert.AreEqual(true, testRedBull.IsRowLegit("a"));
             Assert.AreEqual(false, testRedBull.IsRowLegit("5"));
         }
+
+        [TestMethod]
+        public void IsDiagonal_True() 
+        {
+            RedBull testRedBull = new RedBull();
+            Assert.AreEqual(true, testRedBull.CheckDiagonal("E", "F", 4, 5));
+            Assert.AreEqual(false, testRedBull.CheckDiagonal("E", "F", 4, 6));
+        }
     }
 }
